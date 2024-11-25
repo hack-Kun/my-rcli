@@ -64,9 +64,9 @@ feature-depth = 1
 # https://embarkstudios.github.io/cargo-deny/checks/advisories/cfg.html
 [advisories]
 # The path where the advisory databases are cloned/fetched into
-#db-path = "$CARGO_HOME/advisory-dbs"
+# db-path = "$CARGO_HOME/advisory-dbs"
 # The url(s) of the advisory databases to use
-#db-urls = ["https://github.com/rustsec/advisory-db"]
+# db-urls = ["https://github.com/rustsec/advisory-db"]
 # A list of advisory IDs to ignore. Note that ignored advisories will still
 # output a note when they are encountered.
 ignore = [
@@ -91,7 +91,7 @@ ignore = [
 allow = [
   "MIT",
   "Apache-2.0",
-  "Unicode-DFS-2016",
+  "Unicode-3.0",
   "MPL-2.0",
   "BSD-2-Clause",
   "BSD-3-Clause",
@@ -171,6 +171,12 @@ allow = [
 ]
 # List of crates to deny
 deny = [
+    "MIT",
+    "Apache-2.0",
+    "Unicode-DFS-2016",
+    "BSD-2-Clause",
+    "BSD-3-Clause",
+    "Unicode-3.0",
     #"ansi_term@0.11.0",
     #{ crate = "ansi_term@0.11.0", reason = "you can specify a reason it is banned" },
     # Wrapper crates can optionally be specified to allow the crate when it
