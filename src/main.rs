@@ -1,16 +1,19 @@
 use clap::Parser;
-use rcli::{read_csv, write_json, Commands, Rcli};
+use rcli::{parse_csv, write_json, Commands, Csv};
 
 fn main() -> anyhow::Result<()> {
-    let csv = Rcli::parse().command;
-
-    match csv {
+    let cli = Csv::parse();
+    match cli.cmd {
         Commands::Csv(opts) => {
-            let data = read_csv(opts.input)?;
-            let file_path = opts.output;
-            write_json(data, file_path)?;
+            let input_path = opts.input();
+            // 从文件读取csv并解析成结构体
+            let mut players = Vec::with_capacity(128);
+            parse_csv(&input_path, &mut players)?;
+            // println!("{:?}", players);
+            // 将csv 的对象vec 写入json
+            let output_path = opts.output();
+            write_json(&output_path, &players)?;
         }
-    };
-
+    }
     Ok(())
 }
