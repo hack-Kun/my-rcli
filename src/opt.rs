@@ -2,6 +2,8 @@
 
 use std::fs;
 
+use serde_json::Value;
+
 use crate::Player;
 
 // 验证输入文件是否存在
@@ -25,6 +27,21 @@ pub fn parse_csv(file_path: &str, players: &mut Vec<Player>) -> anyhow::Result<(
         let record: Player = result?;
         players.push(record);
     }
+    Ok(())
+}
+
+pub fn parse_csv_and_out_json(file_path: &str, output_path: &str) -> anyhow::Result<()> {
+    let mut rdr = csv::Reader::from_path(file_path)?;
+    let mut ret = Vec::with_capacity(128);
+    let headers = rdr.headers()?.clone();
+    for result in rdr.records() {
+        let record = result?;
+        let json_str = headers.iter().zip(record.iter()).collect::<Value>();
+        ret.push(json_str);
+    }
+    let json_str = serde_json::to_string_pretty(&ret)?;
+    fs::write(output_path, json_str)?;
+    // println!("{:?}", headers);
     Ok(())
 }
 
